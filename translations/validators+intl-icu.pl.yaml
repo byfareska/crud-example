@@ -1,0 +1,2 @@
+app.product.sku_format: 'SKU może mieć tylko wielkie litery, cyfry i myślniki.'
+app.product.active_without_stock: 'Produkt bez stanu nie może być aktywny.'

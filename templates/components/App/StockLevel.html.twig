@@ -1,0 +1,7 @@
+{#
+    The stock of a product, printed by the ComponentFormat of its column (App\Crud\Doctrine\Maximal\ProductCrud): in
+    red once it is below "low". "cell" is a ValueView - the value, the whole record, where it is printed. Inline styles
+    only: the same in every theme of the panel.
+#}
+{% props cell, low = 5 %}
+<span{% if cell.raw < low %} style="color: #dc2626; font-weight: 600"{% endif %}>{{ cell.value }}</span>

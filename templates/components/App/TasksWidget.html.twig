@@ -1,0 +1,9 @@
+{# Only Ui:* components inside: the widget looks right in every theme of the panel. #}
+{% set open = this.open %}
+<div {{ attributes.defaults({style: 'height: 100%'}) }}>
+    <twig:Ui:Widget :title="'app.widget.tasks.title'|trans" icon="check2-square" accent="#8b5cf6"
+                    :href="path('crud_task_list', {filters: {done: 0}})" :link="'crud.task.title'|trans">
+        <twig:Ui:WidgetStat :value="open|length" :caption="'app.widget.tasks.caption'|trans({count: open|length})" />
+        <twig:Ui:WidgetList :items="open|slice(0, 3)|map(task => {title: task.title, href: path('crud_task_show', {id: task.id})})" />
+    </twig:Ui:Widget>
+</div>

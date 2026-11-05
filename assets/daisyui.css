@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+/* daisyUI with all its colour themes - the ones the picker of the panel offers (byfareska_crud.color_themes). */
+@plugin 'daisyui' {
+    themes: all;
+}
+
+/* The classes of the theme's templates (in vendor/byfareska/crud) and of the application's. */
+@source '../vendor/byfareska/crud/templates/daisyui';
+@source '../templates';

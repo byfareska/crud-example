@@ -1,0 +1,49 @@
+parameters:
+    crud_theme: '%env(CRUD_THEME)%'
+
+byfareska_crud:
+    name: Acme
+    # daisyUI, Bootstrap 5 or Tailwind; every page loads the Vite entry built for its theme (vite.config.js).
+    theme: '%crud_theme%'
+    entries: ['panel_{theme}']
+    # The sizes of a page of every list to choose from, and the one shown at first; a resource may say its own
+    # (#[AsCrud(perPage: ..., defaultPerPage: ...)], see TaskCrud).
+    per_page: [5, 15, 30, 50, 100]
+    default_per_page: 15
+    scopes:
+        # Every signed-in user: tasks (the "dto" driver) and their dashboard.
+        panel:
+            icon: house-door
+            # A theme of its own when CRUD_PANEL_THEME says, else CRUD_THEME.
+            theme: '%env(default:crud_theme:CRUD_PANEL_THEME)%'
+        # Administrators: the catalogue (the "doctrine" driver).
+        admin:
+            icon: shield-lock
+            # The name its pages go by, in place of "name".
+            brand: Acme Admin
+            role: ROLE_ADMIN
+            # A theme of its own when CRUD_ADMIN_THEME says, else CRUD_THEME.
+            theme: '%env(default:crud_theme:CRUD_ADMIN_THEME)%'
+            # A second dashboard of the panel, at /admin/warehouse: its own layouts and widgets, in the menu.
+            boards:
+                warehouse: { label: app.board.warehouse, icon: box-seam }
+    # Form themes of the application in the forms and filters of the panel, after the theme's own: an amount with its
+    # currency (the price of a product).
+    form_themes: ['form/panel_fields.html.twig']
+    command_palette:
+        # Any PaletteSearch service - e.g. one asking an embedding model; see the README of the bundle.
+        search: Byfareska\Crud\CommandPalette\TextPaletteSearch
+    dashboard:
+        storage: doctrine
+    # Uploading files: the fields of files (the logo of a supplier, the gallery of a product) and the library to pick
+    # them again. A reference kept in the database names its storage: "public://ab/cd/....jpg".
+    files:
+        storages:
+            public: { service: app.public_storage, public_url: /uploads }
+            # Not under the web root: a file is opened by an address of the panel signed for an hour (the attachments of
+            # a task).
+            private: { service: app.private_storage, url: signed }
+    # The fields of rich text (the description of a product): TinyMCE, registered in assets/stimulus_bootstrap.js, under
+    # its open source licence.
+    rich_text:
+        options: { license_key: gpl }

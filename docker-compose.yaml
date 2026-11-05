@@ -1,0 +1,28 @@
+# The example application of byfareska/crud. HTTP_PORT, UID and GID come from the shell.
+services:
+  php:
+    build:
+      context: docker
+      dockerfile: php.Dockerfile
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      COMPOSER_HOME: /tmp/composer
+    ports:
+      - "127.0.0.1:${HTTP_PORT:-8080}:8000"
+    volumes:
+      - .:/app
+    tty: true
+
+  # Frontend tooling, on demand: `docker compose run --rm --service-ports node npx vite` (dev server) or
+  # `docker compose run --rm node npm run build`.
+  node:
+    image: node:24-alpine
+    user: "${UID:-1000}:${GID:-1000}"
+    working_dir: /app
+    profiles: ["tools"]
+    environment:
+      npm_config_cache: /tmp/npm
+    ports:
+      - "127.0.0.1:5173:5173"
+    volumes:
+      - .:/app

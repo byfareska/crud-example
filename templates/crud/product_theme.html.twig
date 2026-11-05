@@ -1,0 +1,8 @@
+{#
+    How the values of the "product" resource are printed (#[AsCrud(theme: ...)]): looked into before the theme's
+    @CrudTheme/crud/values.html.twig - see Byfareska\Crud\Twig\CrudValueRenderer for the names of the blocks.
+    Inline styles only: the same in every theme of the panel.
+#}
+{% block type_money %}{{ value|number_format(2, ',', ' ') }} zł{% endblock %}
+
+{% block crud_product_sku %}<code>{{ value }}</code>{% endblock %}

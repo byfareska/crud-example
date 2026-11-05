@@ -1,0 +1,10 @@
+# One import per panel (scope): its dashboard at "/" of the prefix and the pages of its #[AsCrud] resources.
+crud_panel:
+    resource: panel
+    type: byfareska_crud
+
+crud_admin:
+    resource: admin
+    type: byfareska_crud
+    prefix: /admin
+    trailing_slash_on_root: false

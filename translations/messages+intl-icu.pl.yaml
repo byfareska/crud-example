@@ -1,0 +1,133 @@
+# Texts of this application. Those of the bundle (ui.*, crud.*, panel.*) can be overridden here too.
+app:
+    board:
+        warehouse: Magazyn
+    category:
+        list_note: 'Kategoria grupuje produkty w menu sklepu.'
+        save_products: 'Zapisz i pokaż produkty'
+    product:
+        delete_reason: 'Powód (dla historii zmian)'
+        empty:
+            title: 'Nie ma takich produktów'
+            filtered: 'Zmień albo wyczyść filtry.'
+            none: 'Dodaj pierwszy produkt.'
+        note:
+            label: 'Notatka'
+            field: 'Notatka dla zespołu'
+            no_links: 'Notatka nie może zawierać linków.'
+    task:
+        unfinished: Najpierw zakończ zadanie, potem je usuń.
+        added_done: Nowe zadanie nie jest jeszcze zrobione.
+        marked_done: 'Oznaczono jako zrobione: {count, number}'
+    deactivated: 'Wycofano ze sprzedaży: {count, number}'
+    nav:
+        docs: Dokumentacja
+        catalog: Katalog
+        work: Praca
+        minimal: Przykłady minimalne
+    login:
+        hint: 'Konta demo: admin / admin, user / user'
+    widget:
+        catalog:
+            title: Katalog
+            description: Ile jest produktów, aktywnych i z niskim stanem.
+            caption: '{active, number} aktywnych · {low, plural, =0 {stany OK} one {# kończy się} few {# się kończą} other {# się kończy}}'
+        tasks:
+            title: Zadania
+            description: Twoje otwarte zadania, najpilniejsze na górze.
+            caption: '{count, plural, =0 {wszystko zrobione} one {otwarte} few {otwarte} other {otwartych}}'
+    category_summary:
+        products: Produkty
+        active: Aktywne
+        stock: Sztuk w magazynie
+    copy:
+        done: Skopiowano
+        failed: Nie udało się skopiować
+    product_stats:
+        value: Wartość magazynu
+        share: Udział w magazynie
+        days: Dni w katalogu
+
+crud:
+    supplier:
+        title: Dostawcy
+        new: Nowy dostawca
+        edit: Edycja dostawcy
+        field:
+            name: { name: Nazwa }
+            email: { name: E-mail }
+            logo: { name: Logo }
+    bundle:
+        title: Pakiety
+        field:
+            name: { name: Nazwa }
+            namespace: { name: Przestrzeń nazw }
+    category_product:
+        title: 'Produkty kategorii'
+        field:
+            name: { name: 'Nazwa' }
+            sku: { name: 'SKU' }
+            price: { name: 'Cena' }
+            stock: { name: 'Stan' }
+    category:
+        toast:
+            created: 'Kategoria dodana'
+        action:
+            summary: Podsumowanie
+            products: 'Produkty'
+            overview: 'Przegląd'
+        title: Kategorie
+        new: Nowa kategoria
+        edit: Edycja kategorii
+        field:
+            name: { name: Nazwa }
+            description: { name: Opis }
+            productCount: { name: Produkty }
+    product:
+        action:
+            stats: Statystyki
+            copy-sku: Kopiuj SKU
+            toggle-active: 'Włącz / wyłącz sprzedaż'
+        bulk:
+            deactivate: Wycofaj ze sprzedaży
+        title: Produkty
+        new: Nowy produkt
+        edit: Edycja produktu
+        palette:
+            keywords: 'towar, magazyn, sku, cena'
+        field:
+            name: { name: Nazwa }
+            sku: { name: SKU, help: 'Wielkie litery, cyfry i myślniki, np. MUG-001.' }
+            category: { name: Kategoria, none: '— bez kategorii —' }
+            price: { name: Cena }
+            stock: { name: Stan }
+            active: { name: Aktywny, no_stock: 'Brak na stanie: najpierw uzupełnij stan i zapisz.' }
+            images: { name: Galeria }
+            description: { name: Opis }
+            createdAt: { name: Dodano }
+            priceFrom: { name: Cena od }
+            priceTo: { name: Cena do }
+        layout:
+            basics: { name: Podstawowe }
+            stock: { name: Sprzedaż i magazyn, help: 'Produkt nieaktywny nie jest widoczny w sklepie.' }
+            images: { name: Galeria, help: 'Przeciągnij zdjęcia, aby ustawić kolejność; pierwsze jest główne.' }
+    task:
+        bulk:
+            done: Oznacz jako zrobione
+        title: Zadania
+        new: Nowe zadanie
+        edit: Edycja zadania
+        palette:
+            keywords: 'todo, do zrobienia'
+        field:
+            query: { name: Szukaj }
+            title: { name: Tytuł }
+            priority: { name: Priorytet }
+            done: { name: Zrobione }
+            createdAt: { name: Dodano }
+            id: { name: 'Nr' }
+            attachments: { name: Załączniki }
+        priority:
+            low: Niski
+            normal: Normalny
+            high: Wysoki

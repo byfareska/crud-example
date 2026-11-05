@@ -1,0 +1,19 @@
+{#
+    The list page of the categories (AsCrud pageTemplates): the theme's, a note above what it shows - and, as any page
+    extending the panel's layout can, a button of the top bar ("topbar_actions") and an entry of the user's menu
+    ("user_menu_items") of this page.
+#}
+{% extends '@CrudTheme/crud/list.html.twig' %}
+
+{% block topbar_actions %}
+    <a class="btn btn-sm btn-success d-flex align-items-center gap-1 me-1" href="{{ path('crud_category_new') }}" title="{{ 'crud.category.new'|trans }}" data-category-topbar>{{ crud_icon('plus-lg') }}<span class="d-none d-lg-inline">{{ 'crud.category.new'|trans }}</span></a>
+{% endblock %}
+
+{% block user_menu_items %}
+    <a class="dropdown-item" href="{{ path('crud_category_list') }}" data-category-menu>{{ 'crud.category.title'|trans }}</a>
+{% endblock %}
+
+{% block content %}
+    <p class="small text-body-secondary" data-category-note>{{ 'app.category.list_note'|trans }}</p>
+    {{ parent() }}
+{% endblock %}

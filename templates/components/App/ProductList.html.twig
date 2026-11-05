@@ -1,0 +1,15 @@
+{#
+    The list of the products (App\Crud\Doctrine\Maximal\ProductList): the bundle's list in the theme in use, with one
+    block of its own - what it says when nothing is found. Every other part is the bundle's.
+#}
+{% extends '@CrudTheme/components/Crud/List.html.twig' %}
+
+{% block list_empty %}
+    {% if result.items is empty %}
+        {# Here: inside the component "this" is the component. #}
+        {% set filtered = this.filtered %}
+        <twig:Ui:EmptyState :icon="crud.icon" :title="'app.product.empty.title'|trans" data-product-empty>
+            {% if filtered %}{{ 'app.product.empty.filtered'|trans }}{% else %}{{ 'app.product.empty.none'|trans }}{% endif %}
+        </twig:Ui:EmptyState>
+    {% endif %}
+{% endblock %}

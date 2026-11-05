@@ -1,0 +1,132 @@
+app:
+    board:
+        warehouse: Warehouse
+    category:
+        list_note: 'A category groups products in the menu of the shop.'
+        save_products: 'Save and show its products'
+    product:
+        delete_reason: 'Reason (for the history of changes)'
+        empty:
+            title: 'No such products'
+            filtered: 'Change or clear the filters.'
+            none: 'Add the first product.'
+        note:
+            label: 'Note'
+            field: 'Note for the team'
+            no_links: 'A note has no links.'
+    task:
+        unfinished: Finish the task before deleting it.
+        added_done: A new task is not done yet.
+        marked_done: 'Marked as done: {count, number}'
+    deactivated: 'Taken off sale: {count, number}'
+    nav:
+        docs: Documentation
+        catalog: Catalogue
+        work: Work
+        minimal: Minimal examples
+    login:
+        hint: 'Demo accounts: admin / admin, user / user'
+    widget:
+        catalog:
+            title: Catalogue
+            description: How many products there are, how many active and running low.
+            caption: '{active, number} active · {low, plural, =0 {stock OK} one {# running low} other {# running low}}'
+        tasks:
+            title: Tasks
+            description: Your open tasks, the most urgent first.
+            caption: '{count, plural, =0 {all done} other {open}}'
+    category_summary:
+        products: Products
+        active: Active
+        stock: Units in stock
+    copy:
+        done: Copied
+        failed: Could not copy
+    product_stats:
+        value: Stock value
+        share: Share of stock
+        days: Days in catalogue
+
+crud:
+    supplier:
+        title: Suppliers
+        new: New supplier
+        edit: Edit supplier
+        field:
+            name: { name: Name }
+            email: { name: E-mail }
+            logo: { name: Logo }
+    bundle:
+        title: Bundles
+        field:
+            name: { name: Name }
+            namespace: { name: Namespace }
+    category_product:
+        title: 'Products of the category'
+        field:
+            name: { name: 'Name' }
+            sku: { name: 'SKU' }
+            price: { name: 'Price' }
+            stock: { name: 'Stock' }
+    category:
+        toast:
+            created: 'Category added'
+        action:
+            summary: Summary
+            products: 'Products'
+            overview: 'Overview'
+        title: Categories
+        new: New category
+        edit: Edit category
+        field:
+            name: { name: Name }
+            description: { name: Description }
+            productCount: { name: Products }
+    product:
+        action:
+            stats: Statistics
+            copy-sku: Copy SKU
+            toggle-active: 'Put on sale / take off'
+        bulk:
+            deactivate: Take off sale
+        title: Products
+        new: New product
+        edit: Edit product
+        palette:
+            keywords: 'goods, stock, sku, price'
+        field:
+            name: { name: Name }
+            sku: { name: SKU, help: 'Capital letters, digits and hyphens, e.g. CUP-001.' }
+            category: { name: Category, none: '— no category —' }
+            price: { name: Price }
+            stock: { name: Stock }
+            active: { name: Active, no_stock: 'Out of stock: fill in the stock and save first.' }
+            images: { name: Gallery }
+            description: { name: Description }
+            createdAt: { name: Added }
+            priceFrom: { name: Price from }
+            priceTo: { name: Price to }
+        layout:
+            basics: { name: Basics }
+            stock: { name: Sales and stock, help: 'An inactive product is not shown in the shop.' }
+            images: { name: Gallery, help: 'Drag the images to order them; the first one is the main image.' }
+    task:
+        bulk:
+            done: Mark as done
+        title: Tasks
+        new: New task
+        edit: Edit task
+        palette:
+            keywords: 'todo'
+        field:
+            query: { name: Search }
+            title: { name: Title }
+            priority: { name: Priority }
+            done: { name: Done }
+            createdAt: { name: Added }
+            id: { name: 'No.' }
+            attachments: { name: Attachments }
+        priority:
+            low: Low
+            normal: Normal
+            high: High

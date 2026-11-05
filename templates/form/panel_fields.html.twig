@@ -1,0 +1,23 @@
+{#
+    A form theme of the application, for the forms and filters of the panel (byfareska_crud.form_themes): drawn after
+    the theme's own, so its blocks win over those of bootstrap_5_layout / tailwind_2_layout / daisyui_5_layout - here an amount with
+    its currency in front, whichever theme the panel has.
+#}
+{%- block money_widget -%}
+    {%- set symbol = money_pattern|replace({'{{ widget }}': ''})|trim -%}
+    {%- set theme = crud_theme() -%}
+    {%- if theme == 'daisyui' -%}
+        <label class="input w-full" data-app-money="{{ symbol }}">
+            <span class="text-base-content/60">{{ symbol }}</span>
+            <input type="text" id="{{ id }}" name="{{ full_name }}" value="{{ value }}" class="grow"
+                {%- if required %} required{% endif %}{% if disabled %} disabled{% endif %}>
+        </label>
+    {%- else -%}
+    {%- set tailwind = theme == 'tailwind' -%}
+    <span class="{{ tailwind ? 'flex items-center gap-2' : 'd-flex align-items-center gap-2' }}" data-app-money="{{ symbol }}">
+        <span>{{ symbol }}</span>
+        <input type="text" id="{{ id }}" name="{{ full_name }}" value="{{ value }}" class="{{ tailwind ? 'block w-full rounded-lg px-3 py-2 text-sm outline-1 outline-gray-300' : 'form-control' }}"
+            {%- if required %} required{% endif %}{% if disabled %} disabled{% endif %}>
+    </span>
+    {%- endif -%}
+{%- endblock -%}

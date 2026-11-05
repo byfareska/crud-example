@@ -1,0 +1,5 @@
+{# The priority of a task as a coloured pill - inline styles: the same in every theme of the panel. #}
+{% block crud_task_priority %}
+    {% set colors = {high: '#dc2626', normal: '#2563eb', low: '#6b7280'} %}
+    <span style="display: inline-block; padding: 0.1em 0.6em; border-radius: 999px; font-size: 0.8em; font-weight: 600; color: #fff; background: {{ colors[value] ?? '#6b7280' }}">{{ ('crud.task.priority.' ~ value)|trans }}</span>
+{% endblock %}

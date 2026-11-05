@@ -1,0 +1,12 @@
+{# The frame of a page of a record of the bundle: the layout of the panel, the name of the category, the way back. #}
+{% extends '@CrudTheme/crud/record.html.twig' %}
+
+{% set heading = 'crud.category.action.summary'|trans %}
+
+{% block record_content %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem">
+        <twig:Ui:StatCard icon="box-seam" :label="'app.category_summary.products'|trans" :value="stats.products" />
+        <twig:Ui:StatCard icon="check2-circle" :label="'app.category_summary.active'|trans" :value="stats.active" />
+        <twig:Ui:StatCard icon="stack" :label="'app.category_summary.stock'|trans" :value="stats.stock" />
+    </div>
+{% endblock %}

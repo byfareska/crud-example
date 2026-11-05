@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+# See also https://symfony.com/doc/current/service_container/import.html
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    # Where the storages of files keep them: the public one under the web root (byfareska_crud.files).
+    app.uploads_dir: '%kernel.project_dir%/public/uploads'
+    app.private_uploads_dir: '%kernel.project_dir%/var/uploads'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    # SQLite does not check foreign keys unless asked: a category with products must not be deleted.
+    Doctrine\DBAL\Driver\AbstractSQLiteDriver\Middleware\EnableForeignKeys:
+        tags: [doctrine.middleware]
+
+    # The storages of the uploaded files (byfareska_crud.files): the public one served by the web server as it is, the
+    # private one only through the panel's signed download address.
+    app.public_storage:
+        class: League\Flysystem\Filesystem
+        arguments: ['@app.public_storage.adapter']
+    app.public_storage.adapter:
+        class: League\Flysystem\Local\LocalFilesystemAdapter
+        arguments: ['%app.uploads_dir%']
+    app.private_storage:
+        class: League\Flysystem\Filesystem
+        arguments: ['@app.private_storage.adapter']
+    app.private_storage.adapter:
+        class: League\Flysystem\Local\LocalFilesystemAdapter
+        arguments: ['%app.private_uploads_dir%']
+
+when@test:
+    parameters:
+        # The tests upload apart from the demo, and start from no files.
+        app.uploads_dir: '%kernel.project_dir%/var/test/uploads'
+        app.private_uploads_dir: '%kernel.project_dir%/var/test/private_uploads'
+    services:
+        # What the tests add to the application: a ListDefaults of the suppliers.
+        App\Tests\Fixtures\SuppliersByNameDescending:
+            autoconfigure: true

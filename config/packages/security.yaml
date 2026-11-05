@@ -1,0 +1,47 @@
+security:
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # Two demo accounts, kept in memory: admin / admin and user / user.
+    providers:
+        users_in_memory:
+            memory:
+                users:
+                    admin: { password: '$2y$13$HO5SKMjFf76BLCiPJPCXD.MbWJ5M909iDh1/rPr.5QbHf4xG0a8ri', roles: [ROLE_ADMIN] }
+                    user: { password: '$2y$13$VLMhSutw8sJOBJO8ArI4zeQ5ccFcqqvXaIg8jVpVO/yzCesyQEKuy', roles: [ROLE_USER] }
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
+
+    firewalls:
+        dev:
+            pattern: ^/(_profiler|_wdt|build|assets)/
+            security: false
+        main:
+            lazy: true
+            provider: users_in_memory
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+                default_target_path: crud_dashboard_panel
+            logout:
+                path: app_logout
+                enable_csrf: true
+            switch_user: true
+
+    # The bundle checks the "role" of a scope (and of a resource) itself, on every way to the resources of the panel;
+    # access_control guards the addresses as well - and the pages of the application's own.
+    access_control:
+        - { path: ^/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/, roles: ROLE_USER }
+
+when@test:
+    security:
+        password_hashers:
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4
+                time_cost: 3
+                memory_cost: 10

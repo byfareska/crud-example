@@ -1,0 +1,2 @@
+app.product.sku_format: 'An SKU may only have capital letters, digits and hyphens.'
+app.product.active_without_stock: 'A product out of stock cannot be active.'

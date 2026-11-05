@@ -1,0 +1,6 @@
+{# The overview of the categories: how many products each has. #}
+<ul {{ attributes.defaults({'data-overview': true}) }}>
+    {% for name, count in this.counts %}
+        <li>{{ name }}: {{ count }}</li>
+    {% endfor %}
+</ul>

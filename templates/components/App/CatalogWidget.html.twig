@@ -1,0 +1,8 @@
+{# Only Ui:* components inside: the widget looks right in every theme of the panel. #}
+{% set stats = this.stats %}
+<div {{ attributes.defaults({style: 'height: 100%'}) }}>
+    <twig:Ui:Widget :title="'app.widget.catalog.title'|trans" icon="box-seam" accent="#22c55e"
+                    :href="path('crud_product_list')" :link="'crud.product.title'|trans">
+        <twig:Ui:WidgetStat :value="stats.products" :caption="'app.widget.catalog.caption'|trans({active: stats.active, low: stats.lowStock})" />
+    </twig:Ui:Widget>
+</div>

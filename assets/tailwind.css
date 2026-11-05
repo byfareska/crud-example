@@ -1,0 +1,8 @@
+@import 'tailwindcss';
+
+/* The classes of the theme's templates (in vendor/byfareska/crud) and of the application's. */
+@source '../vendor/byfareska/crud/templates/tailwind';
+@source '../templates';
+
+/* Dark when the panel says so (the theme toggle sets data-theme on <html>), not only by the system's setting. */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));

@@ -1,0 +1,5 @@
+{# The sign-in page of the bundle's theme; form_login posts to app_login. #}
+{% extends '@CrudTheme/panel/login.html.twig' %}
+
+{% set action = path('app_login') %}
+{% set hint = 'app.login.hint'|trans %}

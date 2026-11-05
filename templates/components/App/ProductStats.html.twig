@@ -1,0 +1,7 @@
+{# Only Ui:* components inside: the page looks right in every theme of the panel. #}
+{% set stats = this.stats %}
+<div {{ attributes.defaults({style: 'display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem'}) }}>
+    <twig:Ui:StatCard icon="cash-stack" :label="'app.product_stats.value'|trans" :value="stats.value|number_format(2, ',', ' ') ~ ' zł'" />
+    <twig:Ui:StatCard icon="pie-chart" :label="'app.product_stats.share'|trans" :value="(stats.share * 100)|number_format(1, ',', ' ') ~ ' %'" />
+    <twig:Ui:StatCard icon="calendar3" :label="'app.product_stats.days'|trans" :value="stats.days" />
+</div>
