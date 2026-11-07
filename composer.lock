@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "../bundle",
-                "reference": "c596b99381ea50ee9de900dcc550597338f05e66"
+                "reference": "621a369080c519750dd5ccfaf5fb7d6730dc44f6"
             },
             "require": {
                 "php": ">=8.4",
@@ -58,7 +58,7 @@
             "suggest": {
                 "doctrine/doctrine-bundle": "The doctrine driver (CRUD on entities) and dashboard layouts kept in the database",
                 "ext-intl": "Accent-insensitive search of the command palette, ICU messages",
-                "intervention/image": "(4 or later, with ext-gd or ext-imagick) The sizes of uploaded images: thumbnails of the lists, sizes of rich text (byfareska_crud.files.images)",
+                "intervention/image": "(4 or later, with ext-imagick - keeps the colour profile of a photo - or ext-gd) The sizes of uploaded images: thumbnails of the lists, sizes of rich text (byfareska_crud.files.images)",
                 "league/flysystem": "Storages of uploaded files on a disk, FTP, SFTP, S3... (byfareska_crud.files)",
                 "league/flysystem-bundle": "The Flysystem storages as services, to name in byfareska_crud.files.storages",
                 "symfony/mime": "Uploading files (byfareska_crud.files): what a file is, read from its bytes",
