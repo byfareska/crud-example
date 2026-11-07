@@ -1323,6 +1323,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             upload?: bool|Param, // Whether files may be uploaded to it; false = only picked. // Default: true
  *             library?: scalar|Param|null, // What is known of its files, to pick them again: "storage" (the storage listed), "none", or the id of a FileLibrary; default "library". // Default: null
  *             urls?: scalar|Param|null, // The id of a FileUrls making the addresses of its files, in place of "url". // Default: null
+ *             variants?: scalar|Param|null, // When its images get the sizes of files.images: eager (on upload), lazy (when first asked for, through the panel), none; default eager with files.images, none for a storage with "urls", "url: none" or "upload: false". // Default: null
  *             offload?: array{ // For "url: signed" on the disk of the server: PHP checks the address, the web server sends the file - X-Accel-Redirect to an internal location of nginx ("location /_protected/ { internal; alias /var/app/private/; }"), or X-Sendfile with the directory of the storage on the disk.
  *                 header?: "X-Accel-Redirect"|"X-Sendfile"|Param,
  *                 prefix?: scalar|Param|null, // "/_protected/" for nginx, "/var/app/private" for X-Sendfile.
@@ -1348,6 +1349,21 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         record_factory?: scalar|Param|null, // The id of a FileRecordFactory; default the constructor of the entity, given the file. // Default: null
  *         usages?: scalar|Param|null, // The index of where files are used: "doctrine" (table crud_file_usage), "none" (no pruning), or the id of a FileUsages; default doctrine with Doctrine ORM, else none. // Default: null
  *         prune_after?: scalar|Param|null, // How old an unused file is before byfareska:crud:files:prune deletes it (ISO 8601): time to save the form it was uploaded in. // Default: "PT24H"
+ *         images?: bool|array{ // The sizes of images (thumbnails): made by intervention/image (GD or Imagick) or an ImageResizer, kept in the storage of the image under "directory". Off until enabled.
+ *             enabled?: bool|Param, // Default: false
+ *             resizer?: scalar|Param|null, // intervention/image with auto (Imagick when PHP has it, else GD), imagick or gd - Imagick keeps the colour profile of a photo, GD drops it - or the id of an ImageResizer. // Default: "auto"
+ *             directory?: scalar|Param|null, // The directory of a storage the sizes are under: "_variants/thumbnail/ab/cd/....jpg". // Default: "_variants"
+ *             max_pixels?: int|Param, // An image of more pixels (width x height) gets no sizes - decoding it takes about 4 bytes a pixel of memory: it is shown itself. // Default: 40000000
+ *             quality?: int|Param, // Of a lossy format (JPEG, WebP, AVIF), for a size that does not say. // Default: 82
+ *             variants?: array<string, array{ // Default: []
+ *                 width?: int|Param, // Default: null
+ *                 height?: int|Param, // Default: null
+ *                 fit?: "inside"|"cover"|Param, // inside (within the box, its proportions kept) or cover (fills the box, what goes beyond cut off). Never made bigger. // Default: "inside"
+ *                 format?: scalar|Param|null, // jpg, png, gif, webp or avif; default the format of the image. // Default: null
+ *                 quality?: int|Param, // Default: null
+ *                 label?: scalar|Param|null, // What it is called where it is chosen (rich text): a translation key or a text; default file.size.<name>, else the name. // Default: null
+ *             }>,
+ *         },
  *         max_size?: scalar|Param|null, // The biggest file a field takes: bytes, or "512K", "10M", "1G". // Default: "10M"
  *     },
  *     rich_text?: array{ // The fields of rich text (CrudRichTextType): the editor that draws them in the browser.

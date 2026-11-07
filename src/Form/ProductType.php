@@ -47,10 +47,11 @@ final class ProductType extends AbstractType
                 'required' => false,
                 'placeholder' => 'crud.product.field.category.none',
             ])
-            // Rich text: images pasted, dropped or picked from the library go to the public storage.
+            // Rich text: images pasted, dropped or picked from the library go to the public storage, put in as "medium";
+            // a chosen image has the menu of its sizes.
             ->add('description', CrudRichTextType::class, [
                 'label' => 'crud.product.field.description.name',
-                'files' => ['accept' => ['images']],
+                'files' => ['accept' => ['images'], 'sizes' => ['large', 'medium'], 'size' => 'medium'],
             ])
             ->add('price', MoneyType::class, ['label' => 'crud.product.field.price.name', 'currency' => 'PLN', 'input' => 'string'])
             ->add('stock', IntegerType::class, ['label' => 'crud.product.field.stock.name'])

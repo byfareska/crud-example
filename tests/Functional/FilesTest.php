@@ -7,6 +7,7 @@ namespace App\Tests\Functional;
 use App\Entity\Product;
 use App\Entity\Supplier;
 use Byfareska\Crud\Files\FileReference;
+use Byfareska\Crud\Files\FileStorages;
 use Byfareska\Crud\Files\FileUsage;
 use Byfareska\Crud\Files\FileUsages;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -67,6 +68,51 @@ final class FilesTest extends PanelTestCase
 
         self::assertSame([['product', (string) $product->id, 'images']], $this->usages($photo['ref']));
         self::assertSame([['product', (string) $product->id, 'description']], $this->usages($inText['ref']));
+    }
+
+    public function testAnImageHasItsSizesAndTheTextShowsOne(): void
+    {
+        $this->client->disableReboot();
+        $this->client->loginUser(self::admin());
+        $image = $this->upload($this->uploadUrl('product', 'description'));
+        $reference = FileReference::parse($image['ref']);
+
+        // Made on upload, in the storage of the image.
+        $medium = '/uploads/_variants/medium/' . $reference->path . '.webp';
+        self::assertSame($medium, $image['sizes']['medium']['url']);
+        self::assertSame('/uploads/_variants/preview/' . $reference->path, $image['preview']);
+        $storage = static::getContainer()->get(FileStorages::class)->storage('public');
+        foreach (['thumbnail', 'preview', 'medium', 'large'] as $size) {
+            self::assertTrue($storage->exists(sprintf('_variants/%s/%s', $size, $reference->path)
+                . (in_array($size, ['medium', 'large'], true) ? '.webp' : '')), $size);
+        }
+
+        $form = $this->createLiveComponent('Crud:Form', ['resource' => 'product'], $this->client)->actingAs(self::admin());
+        $form->submitForm(['product' => [
+            'name' => 'Kubek w rozmiarze',
+            'sku' => 'MUG-SIZED',
+            'price' => '19.99',
+            'stock' => '3',
+            'description' => sprintf('<p><img src="%s" alt=""></p>', $medium),
+        ]], 'save');
+
+        $this->entities()->clear();
+        $product = $this->entities()->getRepository(Product::class)->findOneBy(['sku' => 'MUG-SIZED']);
+        self::assertNotNull($product);
+        // The text shows a size; the image is what it uses.
+        self::assertSame([['product', (string) $product->id, 'description']], $this->usages($image['ref']));
+
+        // The editor knows the sizes of the image it shows.
+        $crawler = $this->client->request('GET', sprintf('/admin/products/%d/edit', $product->id));
+        self::assertResponseIsSuccessful();
+        $sizes = json_decode(
+            (string) $crawler->filter('[data-rich-text-sizes-value]')->attr('data-rich-text-sizes-value'),
+            true,
+            flags: JSON_THROW_ON_ERROR,
+        );
+        self::assertSame('medium', $sizes['initial']);
+        self::assertSame(['large', 'medium'], array_column($sizes['choices'], 'name'));
+        self::assertSame($image['url'], $sizes['images'][0]['url']);
     }
 
     public function testAFileOfAnotherIsNotTakenWithoutItsSignature(): void
@@ -142,7 +188,8 @@ final class FilesTest extends PanelTestCase
     }
 
     /**
-     * @return array{ref: string, sig: string, url: string, alt: string}
+     * @return array{ref: string, sig: string, url: string, preview: string, alt: string,
+     *     sizes: array<string, array{url: string}>}
      */
     private function upload(string $url, ?UploadedFile $file = null): array
     {

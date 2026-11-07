@@ -43,6 +43,13 @@ byfareska_crud:
             # Not under the web root: a file is opened by an address of the panel signed for an hour (the attachments of
             # a task).
             private: { service: app.private_storage, url: signed }
+        # Sizes of images (intervention/image: Imagick of the PHP image, else GD): the thumbnails of the lists and the
+        # library, made on upload; "large" and "medium" are offered in the description of a product. Images uploaded
+        # before: bin/console byfareska:crud:files:variants:generate.
+        images:
+            variants:
+                large: { width: 1200, format: webp, label: app.size.large }
+                medium: { width: 600, format: webp, label: app.size.medium }
     # The fields of rich text (the description of a product): TinyMCE, registered in assets/stimulus_bootstrap.js, under
     # its open source licence.
     rich_text:

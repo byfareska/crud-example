@@ -1,4 +1,7 @@
 app:
+    size:
+        large: Large
+        medium: Medium
     board:
         warehouse: Warehouse
     category:

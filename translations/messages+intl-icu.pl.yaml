@@ -1,5 +1,8 @@
 # Texts of this application. Those of the bundle (ui.*, crud.*, panel.*) can be overridden here too.
 app:
+    size:
+        large: Duży
+        medium: Średni
     board:
         warehouse: Magazyn
     category:

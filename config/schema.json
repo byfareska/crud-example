@@ -601,6 +601,11 @@
                                                     "default": null,
                                                     "description": "The id of a FileUrls making the addresses of its files, in place of \"url\"."
                                                 },
+                                                "variants": {
+                                                    "$ref": "#/$defs/types/scalar",
+                                                    "default": null,
+                                                    "description": "When its images get the sizes of files.images: eager (on upload), lazy (when first asked for, through the panel), none; default eager with files.images, none for a storage with \"urls\", \"url: none\" or \"upload: false\"."
+                                                },
                                                 "offload": {
                                                     "$ref": "#/$defs/types/object_null",
                                                     "properties": {
@@ -718,6 +723,108 @@
                                         "default": "PT24H",
                                         "description": "How old an unused file is before byfareska:crud:files:prune deletes it (ISO 8601): time to save the form it was uploaded in."
                                     },
+                                    "images": {
+                                        "anyOf": [
+                                            {
+                                                "$ref": "#/$defs/types/object_null",
+                                                "properties": {
+                                                    "enabled": {
+                                                        "$ref": "#/$defs/types/boolean",
+                                                        "default": false
+                                                    },
+                                                    "resizer": {
+                                                        "$ref": "#/$defs/types/scalar",
+                                                        "default": "auto",
+                                                        "description": "intervention/image with auto (Imagick when PHP has it, else GD), imagick or gd - Imagick keeps the colour profile of a photo, GD drops it - or the id of an ImageResizer."
+                                                    },
+                                                    "directory": {
+                                                        "$ref": "#/$defs/types/scalar",
+                                                        "default": "_variants",
+                                                        "description": "The directory of a storage the sizes are under: \"_variants/thumbnail/ab/cd/....jpg\"."
+                                                    },
+                                                    "max_pixels": {
+                                                        "$ref": "#/$defs/types/integer",
+                                                        "minimum": 1,
+                                                        "default": 40000000,
+                                                        "description": "An image of more pixels (width x height) gets no sizes - decoding it takes about 4 bytes a pixel of memory: it is shown itself."
+                                                    },
+                                                    "quality": {
+                                                        "$ref": "#/$defs/types/integer",
+                                                        "minimum": 1,
+                                                        "maximum": 100,
+                                                        "default": 82,
+                                                        "description": "Of a lossy format (JPEG, WebP, AVIF), for a size that does not say."
+                                                    },
+                                                    "variants": {
+                                                        "$ref": "#/$defs/types/object_null",
+                                                        "additionalProperties": {
+                                                            "$ref": "#/$defs/types/object_null",
+                                                            "properties": {
+                                                                "width": {
+                                                                    "$ref": "#/$defs/types/integer_null",
+                                                                    "minimum": 1,
+                                                                    "default": null
+                                                                },
+                                                                "height": {
+                                                                    "$ref": "#/$defs/types/integer_null",
+                                                                    "minimum": 1,
+                                                                    "default": null
+                                                                },
+                                                                "fit": {
+                                                                    "anyOf": [
+                                                                        {
+                                                                            "enum": [
+                                                                                "inside",
+                                                                                "cover"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "$ref": "#/$defs/types/param"
+                                                                        }
+                                                                    ],
+                                                                    "default": "inside",
+                                                                    "description": "inside (within the box, its proportions kept) or cover (fills the box, what goes beyond cut off). Never made bigger."
+                                                                },
+                                                                "format": {
+                                                                    "$ref": "#/$defs/types/scalar",
+                                                                    "default": null,
+                                                                    "description": "jpg, png, gif, webp or avif; default the format of the image."
+                                                                },
+                                                                "quality": {
+                                                                    "$ref": "#/$defs/types/integer_null",
+                                                                    "minimum": 1,
+                                                                    "maximum": 100,
+                                                                    "default": null
+                                                                },
+                                                                "label": {
+                                                                    "$ref": "#/$defs/types/scalar",
+                                                                    "default": null,
+                                                                    "description": "What it is called where it is chosen (rich text): a translation key or a text; default file.size.<name>, else the name."
+                                                                }
+                                                            },
+                                                            "additionalProperties": false
+                                                        },
+                                                        "description": "The sizes by name, besides the bundle's \"thumbnail\" (96 x 96, cover: the lists) and \"preview\" (480 x 480: the details, the library), which a size of the same name changes."
+                                                    }
+                                                },
+                                                "additionalProperties": false
+                                            },
+                                            {
+                                                "type": [
+                                                    "boolean"
+                                                ]
+                                            }
+                                        ],
+                                        "default": {
+                                            "enabled": false,
+                                            "resizer": "auto",
+                                            "directory": "_variants",
+                                            "max_pixels": 40000000,
+                                            "quality": 82,
+                                            "variants": []
+                                        },
+                                        "description": "The sizes of images (thumbnails): made by intervention/image (GD or Imagick) or an ImageResizer, kept in the storage of the image under \"directory\". Off until enabled."
+                                    },
                                     "max_size": {
                                         "$ref": "#/$defs/types/scalar",
                                         "default": "10M",
@@ -748,6 +855,14 @@
                             "record_factory": null,
                             "usages": null,
                             "prune_after": "PT24H",
+                            "images": {
+                                "enabled": false,
+                                "resizer": "auto",
+                                "directory": "_variants",
+                                "max_pixels": 40000000,
+                                "quality": 82,
+                                "variants": []
+                            },
                             "max_size": "10M"
                         },
                         "description": "Uploading files: fields of files and galleries, a library to pick them again. Off until enabled - nothing of it (services, routes, tables) is there before; needs symfony/mime, and league/flysystem for storages of Flysystem."
